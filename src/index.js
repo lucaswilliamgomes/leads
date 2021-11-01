@@ -1,4 +1,6 @@
 import ReactDOM from "react-dom";
-import App from "./signup/page"
+import RegisterUserPage from "./signup/page"
+import ListLeadPage from "./list_lead/page"
+import RegisterLeadPage from "./register_lead/page"
 
-ReactDOM.render(<App />, document.getElementById("root"))
+ReactDOM.render(<RegisterLeadPage />, document.getElementById("root"))

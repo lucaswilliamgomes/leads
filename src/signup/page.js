@@ -30,21 +30,29 @@ class SignUp extends Component {
     });
   };
 
+  validateForm() {
+    this.setState({
+      formValid:
+        this.state.userValid &&
+        this.state.passwordValid &&
+        this.state.confirmPasswordValid,
+    });
+  }
+
   validateField(fieldName, fieldValue) {
     let fieldValidationErros = this.state.formErrors;
     let userValid = this.state.userValid;
     let passwordValid = this.state.passwordValid;
     let confirmPasswordValid = this.state.confirmPasswordValid;
 
+    if (fieldName === "user") {
+      userValid = fieldValue.length > 0;
+    }
     if (fieldName === "password") {
-      passwordValid = fieldValue.length >= 8;
-      fieldValidationErros.password = passwordValid
-        ? ""
-        : "Senha muito pequena!";
-
-      passwordValid = fieldValue.match(
+      const re = new RegExp(
         "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.*[! @ # $ % ^ & * ? _ -])(?=.{8,})"
       );
+      passwordValid = re.test(fieldValue);
       fieldValidationErros.password = passwordValid
         ? ""
         : "Requisitos de senha não atendidos";
@@ -66,22 +74,20 @@ class SignUp extends Component {
     );
   }
 
-  validateForm() {
-    this.setState({
-      formValid:
-        this.state.userValid &&
-        this.state.passwordValid &&
-        this.state.confirmPasswordValid,
-    });
-  }
-
   errorClass(error) {
     return error.length === 0 ? "" : "has-error";
   }
 
+  submitForm(event) {
+    if (this.state.formValid) {
+      localStorage.setItem("user", this.state.user);
+    }
+    event.preventDefault();
+  }
+
   render() {
     return (
-      <form>
+      <form onSubmit={(event) => this.submitForm(event)}>
         <img
           src={process.env.PUBLIC_URL + "/logo.png"}
           width="150"
@@ -152,7 +158,7 @@ class SignUp extends Component {
   }
 }
 
-export default class App extends Component {
+export default class RegisterUserPage extends Component {
   render() {
     return (
       <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
@@ -161,4 +167,3 @@ export default class App extends Component {
     );
   }
 }
-
