@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FormErrors } from "./form_erros";
+import { FormErrors } from "../utils/form_erros";
 
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
@@ -40,7 +40,7 @@ class SignUp extends Component {
   }
 
   validateField(fieldName, fieldValue) {
-    let fieldValidationErros = this.state.formErrors;
+    let fieldValidationErrors = this.state.formErrors;
     let userValid = this.state.userValid;
     let passwordValid = this.state.passwordValid;
     let confirmPasswordValid = this.state.confirmPasswordValid;
@@ -53,19 +53,19 @@ class SignUp extends Component {
         "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.*[! @ # $ % ^ & * ? _ -])(?=.{8,})"
       );
       passwordValid = re.test(fieldValue);
-      fieldValidationErros.password = passwordValid
+      fieldValidationErrors.password = passwordValid
         ? ""
         : "Requisitos de senha não atendidos";
     } else if (fieldName === "confirmPassword") {
       confirmPasswordValid = fieldValue === this.state.password;
-      fieldValidationErros.confirmPassword = confirmPasswordValid
+      fieldValidationErrors.confirmPassword = confirmPasswordValid
         ? ""
         : "As senhas não são iguais!";
     }
 
     this.setState(
       {
-        formErrors: fieldValidationErros,
+        formErrors: fieldValidationErrors,
         userValid: userValid,
         passwordValid: passwordValid,
         confirmPasswordValid: confirmPasswordValid,

@@ -1,0 +1,10 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin: 5% 30% 0px 20px;
+  align-items: center;
+}
+
+.title {
+    display: inline;
+}

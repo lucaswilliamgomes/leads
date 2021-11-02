@@ -1,16 +1,29 @@
 import React, { Component } from "react";
+import { FormErrors } from "../utils/form_erros";
 
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./page.css";
 
 export default class RegisterLeadPage extends Component {
+  lead_model = {
+    name: "",
+    phone: "",
+    email: "",
+    opportunities: [],
+    status: "Cliente em potêncial",
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       name: "",
       phone: "",
       email: "",
-      opportunities: [],
+      opportunities: new Set(),
+      formErrors: {
+        opportunities: "",
+      },
+      opportunitiesValid: false,
     };
   }
 
@@ -18,27 +31,60 @@ export default class RegisterLeadPage extends Component {
     const name = element.target.name;
     const value = element.target.value;
     this.setState({ [name]: value });
-    console.log("name " + this.state.name)
-    console.log("phone " + this.state.phone)
-    console.log("email " + this.state.email)
-    console.log("oportunities " + this.state.opportunities)
   };
 
-  checkboxControllAll (element) {
-    var boxes = document.querySelectorAll(".custom-control-input")
-    if (element.target.checked) {
-      for (const [key, value] of Object.entries(boxes)) {
-        value.checked = true;
-      }
+  validateForm = () => {
+    if (this.state.opportunities.size) {
+      this.setState({
+        opportunitiesValid: true,
+        formErrors: { opportunities: "" },
+      });
+      return true;
     } else {
-      for (const [key, value] of Object.entries(boxes)) {
-        value.checked = false;
-      }
+      this.setState({
+        opportunitiesValid: false,
+        formErrors: {
+          opportunities: "Você deve selecionar ao menos uma opção!",
+        },
+      });
+      return false;
     }
-  }
+  };
+
+  checkboxController = (element) => {
+    var op = this.state.opportunities;
+    if (element.checked) {
+      op.add(element.id);
+    } else {
+      op.has(element.id) ? op.delete(element.id) : void 0;
+    }
+    this.setState({ opportunities: op });
+    this.validateForm();
+  };
+
+  checkboxControllerAll = (element) => {
+    var boxes = document.querySelectorAll(".custom-control-input");
+    for (const value of Object.values(boxes)) {
+      value.checked = element.target.checked ? true : false;
+      this.checkboxController(value);
+    }
+  };
 
   submitForm(event) {
-    alert("Tudo certo!");
+    if (this.validateForm()) {
+      var leads = JSON.parse(localStorage.getItem("leads") || "[]");
+    
+      this.lead_model["name"] = this.state.name
+      this.lead_model["phone"] = this.state.phone
+      this.lead_model["email"] = this.state.email
+      this.lead_model["opportunities"] = Array.from(this.state.opportunities)
+
+
+      leads.push(this.lead_model);
+      console.log(leads)
+      localStorage.setItem("leads", JSON.stringify(leads));
+      alert("Tudo certo!");
+    }
     event.preventDefault();
   }
 
@@ -67,12 +113,13 @@ export default class RegisterLeadPage extends Component {
                     />
                   </div>
 
-                  <div style={{ marginBottom: 10 }}>
+                  <div class="form-group" style={{ marginBottom: 10 }}>
                     <label>Telefone*</label>
                     <input
                       required="true"
                       className="form-control"
                       name="phone"
+                      type="number"
                       onChange={this.handleUserInput}
                     />
                   </div>
@@ -83,6 +130,7 @@ export default class RegisterLeadPage extends Component {
                       required="true"
                       className="form-control"
                       name="email"
+                      type="email"
                       onChange={this.handleUserInput}
                     />
                   </div>
@@ -92,15 +140,16 @@ export default class RegisterLeadPage extends Component {
                 <div class="container">
                   <h3 class="head">Novo Lead</h3>
                   <div class="col-5">
-                    <table class="table">
+                    <table class="table table-bordered">
                       <thead>
+                        <h6>Oportunidades*</h6>
                         <tr>
                           <th scope="col" class="d-flex justify-content-center">
                             <input
                               type="checkbox"
                               class="checkAll"
                               id="customCheckAll"
-                              onChange={this.checkboxControllAll}
+                              onChange={this.checkboxControllerAll}
                             ></input>
                           </th>
                         </tr>
@@ -112,7 +161,11 @@ export default class RegisterLeadPage extends Component {
                               <input
                                 type="checkbox"
                                 class="custom-control-input"
-                                id="customCheck1"
+                                id="RPA"
+                                name="opportunities"
+                                onChange={(element) =>
+                                  this.checkboxController(element.target)
+                                }
                               ></input>
                             </div>
                           </td>
@@ -124,7 +177,11 @@ export default class RegisterLeadPage extends Component {
                               <input
                                 type="checkbox"
                                 class="custom-control-input"
-                                id="customCheck2"
+                                id="Produto digital"
+                                name="opportunities"
+                                onChange={(element) =>
+                                  this.checkboxController(element.target)
+                                }
                               ></input>
                             </div>
                           </td>
@@ -136,7 +193,11 @@ export default class RegisterLeadPage extends Component {
                               <input
                                 type="checkbox"
                                 class="custom-control-input"
-                                id="customCheck3"
+                                id="Analytics"
+                                name="opportunities"
+                                onChange={(element) =>
+                                  this.checkboxController(element.target)
+                                }
                               ></input>
                             </div>
                           </td>
@@ -148,7 +209,11 @@ export default class RegisterLeadPage extends Component {
                               <input
                                 type="checkbox"
                                 class="custom-control-input"
-                                id="customCheck4"
+                                id="BPM"
+                                name="opportunities"
+                                onChange={(element) =>
+                                  this.checkboxController(element.target)
+                                }
                               ></input>
                             </div>
                           </td>
@@ -157,7 +222,9 @@ export default class RegisterLeadPage extends Component {
                       </tbody>
                     </table>
                   </div>
-
+                  <div className="panel panel-default">
+                    <FormErrors formErrors={this.state.formErrors} />
+                  </div>
                   <button type="submit" className="btn btn-primary btn-block">
                     Cadastrar
                   </button>
