@@ -4,10 +4,8 @@ import { Draggable } from 'react-beautiful-dnd';
 
 const Container = styled.div`
   border: 1px solid lightgrey;
-  border-radius: 2px;
   padding: 8px;
-  margin-bottom: 8px;
-  background-color: ${props => (props.isDragging ? 'lightgreen' : 'white')};
+  background-color: ${props => (props.isDragging ? '#ffb74d' : 'white')};
 `;
 
 export default class Lead extends React.Component {
@@ -18,7 +16,7 @@ export default class Lead extends React.Component {
           <Container
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            innerRef={provided.innerRef}
+            ref={provided.innerRef}
             isDragging={snapshot.isDragging}
           >
             {this.props.lead.name}

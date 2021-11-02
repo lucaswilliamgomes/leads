@@ -79,10 +79,11 @@ class SignUp extends Component {
   }
 
   submitForm(event) {
+    event.preventDefault();
     if (this.state.formValid) {
       localStorage.setItem("user", this.state.user);
+      window.location.assign("/leads")
     }
-    event.preventDefault();
   }
 
   render() {
@@ -158,7 +159,7 @@ class SignUp extends Component {
   }
 }
 
-export default class RegisterUserPage extends Component {
+class RegisterUserPage extends Component {
   render() {
     return (
       <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
@@ -167,3 +168,5 @@ export default class RegisterUserPage extends Component {
     );
   }
 }
+
+export default RegisterUserPage;

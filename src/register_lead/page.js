@@ -10,12 +10,13 @@ export default class RegisterLeadPage extends Component {
     phone: "",
     email: "",
     opportunities: [],
-    status: "Cliente em potêncial",
+    status: "1",
   };
 
   constructor(props) {
     super(props);
     this.state = {
+      id: "",
       name: "",
       phone: "",
       email: "",
@@ -73,17 +74,15 @@ export default class RegisterLeadPage extends Component {
   submitForm(event) {
     if (this.validateForm()) {
       var leads = JSON.parse(localStorage.getItem("leads") || "[]");
-    
-      this.lead_model["name"] = this.state.name
-      this.lead_model["phone"] = this.state.phone
-      this.lead_model["email"] = this.state.email
-      this.lead_model["opportunities"] = Array.from(this.state.opportunities)
-
-
+      this.lead_model["id"] = String(leads.length + 1);
+      this.lead_model["name"] = this.state.name;
+      this.lead_model["phone"] = this.state.phone;
+      this.lead_model["email"] = this.state.email;
+      this.lead_model["opportunities"] = Array.from(this.state.opportunities);
+      this.lead_model["status"] = "1";
       leads.push(this.lead_model);
-      console.log(leads)
       localStorage.setItem("leads", JSON.stringify(leads));
-      alert("Tudo certo!");
+      window.location.assign("/leads");
     }
     event.preventDefault();
   }
@@ -94,13 +93,15 @@ export default class RegisterLeadPage extends Component {
         <div class="container">
           <form onSubmit={(event) => this.submitForm(event)}>
             <div class="row">
-              <div class="col-sm">
+              <div class="header">
                 <img
                   class="img_logo"
                   src={process.env.PUBLIC_URL + "/logo.png"}
                   alt="logo"
                 />
-
+                <h3>Novo Lead</h3>
+              </div>
+              <div class="col-sm">
                 <div class="form">
                   <div style={{ marginBottom: 10 }}>
                     <label>Nome*</label>
@@ -136,99 +137,96 @@ export default class RegisterLeadPage extends Component {
                   </div>
                 </div>
               </div>
-              <div class="col-sm">
-                <div class="container">
-                  <h3 class="head">Novo Lead</h3>
-                  <div class="col-5">
-                    <table class="table table-bordered">
-                      <thead>
-                        <h6>Oportunidades*</h6>
-                        <tr>
-                          <th scope="col" class="d-flex justify-content-center">
+              <div class="col-sm mt-1">
+                <div class="col-8">
+                  <table class="table table-bordered">
+                    <thead>
+                      <h6>Oportunidades*</h6>
+                      <tr>
+                        <th scope="col" class="d-flex justify-content-center">
+                          <input
+                            type="checkbox"
+                            class="checkAll"
+                            id="customCheckAll"
+                            onChange={this.checkboxControllerAll}
+                          ></input>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="d-flex justify-content-center">
+                          <div class="custom-control custom-checkbox">
                             <input
                               type="checkbox"
-                              class="checkAll"
-                              id="customCheckAll"
-                              onChange={this.checkboxControllerAll}
+                              class="custom-control-input"
+                              id="RPA"
+                              name="opportunities"
+                              onChange={(element) =>
+                                this.checkboxController(element.target)
+                              }
                             ></input>
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td class="d-flex justify-content-center">
-                            <div class="custom-control custom-checkbox">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="RPA"
-                                name="opportunities"
-                                onChange={(element) =>
-                                  this.checkboxController(element.target)
-                                }
-                              ></input>
-                            </div>
-                          </td>
-                          <td>RPA</td>
-                        </tr>
-                        <tr>
-                          <td class="d-flex justify-content-center">
-                            <div class="custom-control custom-checkbox">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="Produto digital"
-                                name="opportunities"
-                                onChange={(element) =>
-                                  this.checkboxController(element.target)
-                                }
-                              ></input>
-                            </div>
-                          </td>
-                          <td>Produto digital</td>
-                        </tr>
-                        <tr>
-                          <td class="d-flex justify-content-center">
-                            <div class="custom-control custom-checkbox">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="Analytics"
-                                name="opportunities"
-                                onChange={(element) =>
-                                  this.checkboxController(element.target)
-                                }
-                              ></input>
-                            </div>
-                          </td>
-                          <td>Analytics</td>
-                        </tr>
-                        <tr>
-                          <td class="d-flex justify-content-center">
-                            <div class="custom-control custom-checkbox">
-                              <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="BPM"
-                                name="opportunities"
-                                onChange={(element) =>
-                                  this.checkboxController(element.target)
-                                }
-                              ></input>
-                            </div>
-                          </td>
-                          <td>BPM</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className="panel panel-default">
-                    <FormErrors formErrors={this.state.formErrors} />
-                  </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Cadastrar
-                  </button>
+                          </div>
+                        </td>
+                        <td>RPA</td>
+                      </tr>
+                      <tr>
+                        <td class="d-flex justify-content-center">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="Produto digital"
+                              name="opportunities"
+                              onChange={(element) =>
+                                this.checkboxController(element.target)
+                              }
+                            ></input>
+                          </div>
+                        </td>
+                        <td>Produto digital</td>
+                      </tr>
+                      <tr>
+                        <td class="d-flex justify-content-center">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="Analytics"
+                              name="opportunities"
+                              onChange={(element) =>
+                                this.checkboxController(element.target)
+                              }
+                            ></input>
+                          </div>
+                        </td>
+                        <td>Analytics</td>
+                      </tr>
+                      <tr>
+                        <td class="d-flex justify-content-center">
+                          <div class="custom-control custom-checkbox">
+                            <input
+                              type="checkbox"
+                              class="custom-control-input"
+                              id="BPM"
+                              name="opportunities"
+                              onChange={(element) =>
+                                this.checkboxController(element.target)
+                              }
+                            ></input>
+                          </div>
+                        </td>
+                        <td>BPM</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
+                <div className="panel panel-default">
+                  <FormErrors formErrors={this.state.formErrors} />
+                </div>
+                <button type="submit" className="btn btn-primary btn-block">
+                  Cadastrar
+                </button>
               </div>
             </div>
           </form>

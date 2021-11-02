@@ -1,8 +1,8 @@
 .col-sm {
-  height: 100vh;
   width: 50vw;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
 }
 
@@ -12,17 +12,18 @@
   flex-direction: column;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .img_logo {
-  margin: 40vh 0 20px 0;
   width: 150px;
 }
 
 .form {
   width: 50%;
-}
-
-.head {
-  margin: 40vh 0 20px 0;
 }
 
 td {
