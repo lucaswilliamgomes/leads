@@ -7,11 +7,7 @@ import Logo from "../../components/logo";
 import HelloUser from "../../components/hello_user";
 import verifyUser from "../../functions/verify_user";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./leads_style.css";
-
-const Container = styled.div`
-  display: flex;
-`;
+import "./style.css";
 
 export default class ListLeadPage extends Component {
   constructor(props) {
@@ -152,7 +148,7 @@ export default class ListLeadPage extends Component {
           </div>
 
           <DragDropContext onDragEnd={this.onDragEnd}>
-            <Container>
+            <div class="d-flex">
               {this.state.columnOrder.map((columnId) => {
                 const column = this.state.columns[columnId];
                 const leads = column.leadIds.map(
@@ -160,7 +156,7 @@ export default class ListLeadPage extends Component {
                 );
                 return <Column key={column.id} column={column} leads={leads} />;
               })}
-            </Container>
+            </div>
           </DragDropContext>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import RegisterUserPage from "./views/signup/signup_view";
-import ListLeadPage from "./views/leads/leads_view";
-import RegisterLeadPage from "./views/register_leads/register_leads_view";
+import RegisterUserPage from "./views/signup/index";
+import ListLeadPage from "./views/leads/index";
+import RegisterLeadPage from "./views/register_leads/index";
 
 function Routes() {
   return (

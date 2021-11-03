@@ -5,7 +5,7 @@ import lead_model from "./lead_model";
 import verifyUser from "../../functions/verify_user";
 
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./register_leads_style.css";
+import "./style.css";
 
 export default class RegisterLeadPage extends Component {
   constructor(props) {

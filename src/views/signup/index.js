@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { FormErrors } from "../../components/form_errors";
 import Logo from "../../components/logo";
-import saveUser from "./signup_api_connector";
-import verifyLocalStorage from "./signup_controller";
+import saveUser from "./api_connector";
+import verifyLocalStorage from "./controller";
 
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
