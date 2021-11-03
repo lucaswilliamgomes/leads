@@ -4,6 +4,8 @@ import styled from "styled-components";
 import columnsData from "./columns_data";
 import Column from "./components/column";
 import Logo from "../../components/logo";
+import HelloUser from "../../components/hello_user";
+import verifyUser from "../../functions/verify_user";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./leads_style.css";
 
@@ -14,6 +16,7 @@ const Container = styled.div`
 export default class ListLeadPage extends Component {
   constructor(props) {
     super(props);
+    verifyUser();
 
     var allLeads = {},
       columns = columnsData.columns,
@@ -134,8 +137,9 @@ export default class ListLeadPage extends Component {
       <div class="container">
         <div class="toolbar">
           <div class="logo">
-          <Logo></Logo>
+            <Logo></Logo>
           </div>
+          <HelloUser></HelloUser>
           <div class="header">
             <button
               class="btn btn-primary"

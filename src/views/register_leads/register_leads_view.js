@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FormErrors } from "../../components/form_errors";
 import Logo from "../../components/logo";
 import lead_model from "./lead_model";
+import verifyUser from "../../functions/verify_user";
 
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./register_leads_style.css";
@@ -9,6 +10,7 @@ import "./register_leads_style.css";
 export default class RegisterLeadPage extends Component {
   constructor(props) {
     super(props);
+    verifyUser();
     this.state = {
       id: "",
       name: "",

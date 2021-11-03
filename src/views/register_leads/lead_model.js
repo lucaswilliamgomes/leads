@@ -3,7 +3,7 @@ const lead_model = {
   phone: "",
   email: "",
   opportunities: [],
-  status: "1",
+  status: "",
 };
 
 export default lead_model;

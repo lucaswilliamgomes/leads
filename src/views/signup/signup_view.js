@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { FormErrors } from "../../components/form_errors";
 import Logo from "../../components/logo";
-
+import saveUser from "./signup_api_connector";
+import verifyLocalStorage from "./signup_controller";
 
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
@@ -22,16 +23,8 @@ class SignUp extends Component {
       confirmPasswordValid: false,
       formValid: false,
     };
-  }
 
-  verifyLocalStorage() {
-    if (localStorage.getItem("user")) {
-      window.location.assign("/leads");
-    } else {
-      if (localStorage.getItem("leads")) {
-        localStorage.removeItem("leads");
-      }
-    }
+    verifyLocalStorage();
   }
 
   handleUserInput = (element) => {
@@ -93,7 +86,7 @@ class SignUp extends Component {
   submitForm(event) {
     event.preventDefault();
     if (this.state.formValid) {
-      localStorage.setItem("user", this.state.user);
+      saveUser(this.state.user);
       window.location.assign("/leads");
     }
   }
