@@ -1,18 +1,12 @@
 import React, { Component } from "react";
-import { FormErrors } from "../utils/form_erros";
+import { FormErrors } from "../../components/form_errors";
+import Logo from "../../components/logo";
+import lead_model from "./lead_model";
 
-import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./page.css";
+import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "./register_leads_style.css";
 
 export default class RegisterLeadPage extends Component {
-  lead_model = {
-    name: "",
-    phone: "",
-    email: "",
-    opportunities: [],
-    status: "1",
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -45,7 +39,7 @@ export default class RegisterLeadPage extends Component {
       this.setState({
         opportunitiesValid: false,
         formErrors: {
-          opportunities: "Você deve selecionar ao menos uma opção!",
+          opportunities: "Você deve selecionar ao menos uma oportunidade!",
         },
       });
       return false;
@@ -75,13 +69,13 @@ export default class RegisterLeadPage extends Component {
     event.preventDefault();
     if (this.validateForm()) {
       var leads = JSON.parse(localStorage.getItem("leads") || "[]");
-      this.lead_model["id"] = String(leads.length + 1);
-      this.lead_model["name"] = this.state.name;
-      this.lead_model["phone"] = this.state.phone;
-      this.lead_model["email"] = this.state.email;
-      this.lead_model["opportunities"] = Array.from(this.state.opportunities);
-      this.lead_model["status"] = "1";
-      leads.push(this.lead_model);
+      lead_model["id"] = String(leads.length + 1);
+      lead_model["name"] = this.state.name;
+      lead_model["phone"] = this.state.phone;
+      lead_model["email"] = this.state.email;
+      lead_model["opportunities"] = Array.from(this.state.opportunities);
+      lead_model["status"] = "1";
+      leads.push(lead_model);
       localStorage.setItem("leads", JSON.stringify(leads));
       window.location.assign("/leads");
     }
@@ -94,11 +88,7 @@ export default class RegisterLeadPage extends Component {
           <form onSubmit={(event) => this.submitForm(event)}>
             <div class="row">
               <div class="header">
-                <img
-                  class="img_logo"
-                  src={process.env.PUBLIC_URL + "/logo.png"}
-                  alt="logo"
-                />
+                <Logo></Logo>
                 <h3>Novo Lead</h3>
               </div>
               <div class="col-sm">

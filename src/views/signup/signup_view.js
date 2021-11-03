@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { FormErrors } from "../utils/form_erros";
+import { FormErrors } from "../../components/form_errors";
+import Logo from "../../components/logo";
 
-import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 class SignUp extends Component {
   constructor(props) {
@@ -20,7 +22,9 @@ class SignUp extends Component {
       confirmPasswordValid: false,
       formValid: false,
     };
+  }
 
+  verifyLocalStorage() {
     if (localStorage.getItem("user")) {
       window.location.assign("/leads");
     } else {
@@ -97,12 +101,7 @@ class SignUp extends Component {
   render() {
     return (
       <form onSubmit={(event) => this.submitForm(event)}>
-        <img
-          src={process.env.PUBLIC_URL + "/logo.png"}
-          width="150"
-          style={{ marginBottom: 10 }}
-          alt="logo"
-        />
+        <Logo></Logo>
         <h3>Cadastro</h3>
         <div
           className={`form-group ${this.errorClass(
@@ -167,7 +166,7 @@ class SignUp extends Component {
   }
 }
 
-class RegisterUserPage extends Component {
+export default class RegisterUserPage extends Component {
   render() {
     return (
       <div class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
@@ -176,5 +175,3 @@ class RegisterUserPage extends Component {
     );
   }
 }
-
-export default RegisterUserPage;

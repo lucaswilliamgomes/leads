@@ -9,9 +9,11 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
 const Title = styled.h5`
   padding: 8px;
 `;
+
 const LeadList = styled.div`
   transition: background-color 0.2s ease;
   background-color: ${(props) => (props.isDraggingOver ? "lightgrey" : "white")};

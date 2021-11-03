@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <React.StrictMode>
-        <Routes/>
+        <Routes />
       </React.StrictMode>
     );
   }

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
-import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./page.css";
-import columnsData from "./components/columns_data";
+import columnsData from "./columns_data";
 import Column from "./components/column";
+import Logo from "../../components/logo";
+import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "./leads_style.css";
 
 const Container = styled.div`
   display: flex;
@@ -133,12 +134,7 @@ export default class ListLeadPage extends Component {
       <div class="container">
         <div class="toolbar">
           <div class="logo">
-            <img
-              src={process.env.PUBLIC_URL + "/logo.png"}
-              width="200"
-              style={{ marginBottom: 10 }}
-              alt="logo"
-            />
+          <Logo></Logo>
           </div>
           <div class="header">
             <button
