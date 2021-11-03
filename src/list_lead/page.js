@@ -3,7 +3,6 @@ import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./page.css";
-import initialData from "./initial_data";
 import columnsData from "./components/columns_data";
 import Column from "./components/column";
 
@@ -21,9 +20,9 @@ export default class ListLeadPage extends Component {
 
     var leads = JSON.parse(localStorage.getItem("leads") || "[]");
 
-    leads.forEach((element) => {
-      allLeads[element.id] = element;
-      columns[element.status].leadIds.push(element.id);
+    leads.forEach((element, index) => {
+      allLeads[String(element.id)] = element;
+      columns[element.status].leadIds[index] = element.id;
     });
 
     this.state = {
@@ -33,10 +32,20 @@ export default class ListLeadPage extends Component {
     };
   }
 
-  state = initialData;
+  searchError(newState) {
+    Object.values(newState.columns).forEach((element) => {
+      element.leadIds.forEach((leadId, index) => {
+        if (!leadId) {
+          delete element.leadIds[index];
+        }
+      });
+    });
+    return newState;
+  }
 
   onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
+    var leads = [];
 
     if (!destination) return;
 
@@ -56,12 +65,12 @@ export default class ListLeadPage extends Component {
       newLeadIds.splice(source.index, 1);
       newLeadIds.splice(destination.index, 0, draggableId);
 
-      const newColumn = {
+      let newColumn = {
         ...start,
         leadIds: newLeadIds,
       };
 
-      const newState = {
+      let newState = {
         ...this.state,
         columns: {
           ...this.state.columns,
@@ -69,8 +78,14 @@ export default class ListLeadPage extends Component {
         },
       };
 
+      newState = this.searchError(newState);
+
       this.setState(newState);
-      localStorage.setItem("leads", JSON.stringify(this.state.leads))
+      Object.values(this.state.leads).forEach((element) => {
+        leads.push(element);
+      });
+
+      localStorage.setItem("leads", JSON.stringify(leads));
       return;
     }
 
@@ -81,14 +96,14 @@ export default class ListLeadPage extends Component {
       leadIds: startLeadIds,
     };
 
-    const finishLeadIds = Array.from(finish.leadIds);
+    let finishLeadIds = Array.from(finish.leadIds);
     finishLeadIds.splice(destination.index, 0, draggableId);
     const newFinish = {
       ...finish,
       leadIds: finishLeadIds,
     };
 
-    const newState = {
+    let newState = {
       ...this.state,
       columns: {
         ...this.state.columns,
@@ -96,12 +111,22 @@ export default class ListLeadPage extends Component {
         [newFinish.id]: newFinish,
       },
     };
+
+    newState.leads[draggableId].status = finish.id;
+
+    newState = this.searchError(newState);
+
     this.setState(newState);
+    Object.values(this.state.leads).forEach((element) => {
+      leads.push(element);
+    });
+
+    localStorage.setItem("leads", JSON.stringify(leads));
   };
 
   newLead = () => {
-    window.location.assign("/new_lead")
-  }
+    window.location.assign("/new_lead");
+  };
 
   render() {
     return (
@@ -116,7 +141,11 @@ export default class ListLeadPage extends Component {
             />
           </div>
           <div class="header">
-            <button class="btn btn-primary" style={{ margin: 20 }} onClick={this.newLead}>
+            <button
+              class="btn btn-primary"
+              style={{ margin: 20 }}
+              onClick={this.newLead}
+            >
               Adicionar lead [+]
             </button>
             <h3 class="title">Painel de leads</h3>

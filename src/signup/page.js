@@ -20,6 +20,14 @@ class SignUp extends Component {
       confirmPasswordValid: false,
       formValid: false,
     };
+
+    if (localStorage.getItem("user")) {
+      window.location.assign("/leads");
+    } else {
+      if (localStorage.getItem("leads")) {
+        localStorage.removeItem("leads");
+      }
+    }
   }
 
   handleUserInput = (element) => {
@@ -82,7 +90,7 @@ class SignUp extends Component {
     event.preventDefault();
     if (this.state.formValid) {
       localStorage.setItem("user", this.state.user);
-      window.location.assign("/leads")
+      window.location.assign("/leads");
     }
   }
 

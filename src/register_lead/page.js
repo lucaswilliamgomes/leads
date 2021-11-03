@@ -72,6 +72,7 @@ export default class RegisterLeadPage extends Component {
   };
 
   submitForm(event) {
+    event.preventDefault();
     if (this.validateForm()) {
       var leads = JSON.parse(localStorage.getItem("leads") || "[]");
       this.lead_model["id"] = String(leads.length + 1);
@@ -84,7 +85,6 @@ export default class RegisterLeadPage extends Component {
       localStorage.setItem("leads", JSON.stringify(leads));
       window.location.assign("/leads");
     }
-    event.preventDefault();
   }
 
   render() {
