@@ -70,6 +70,7 @@ export default class RegisterLeadPage extends Component {
   submitForm(event) {
     event.preventDefault();
     if (this.validateForm()) {
+      alert("Lead incluido com sucesso!")
       var leads = JSON.parse(localStorage.getItem("leads") || "[]");
       lead_model["id"] = String(leads.length + 1);
       lead_model["name"] = this.state.name;

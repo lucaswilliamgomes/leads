@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import styled from "styled-components";
 import columnsData from "./columns_data";
 import Column from "./components/column";
 import Logo from "../../components/logo";
@@ -52,42 +51,13 @@ export default class ListLeadPage extends Component {
     if (
       (destination.droppableId === source.droppableId &&
         destination.index === source.index) ||
-      Math.abs(destination.droppableId - source.droppableId) > 1
+      destination.droppableId - source.droppableId !== 1
     ) {
       return;
     }
 
     const start = this.state.columns[source.droppableId];
     const finish = this.state.columns[destination.droppableId];
-
-    if (start === finish) {
-      const newLeadIds = Array.from(start.leadIds);
-      newLeadIds.splice(source.index, 1);
-      newLeadIds.splice(destination.index, 0, draggableId);
-
-      let newColumn = {
-        ...start,
-        leadIds: newLeadIds,
-      };
-
-      let newState = {
-        ...this.state,
-        columns: {
-          ...this.state.columns,
-          [newColumn.id]: newColumn,
-        },
-      };
-
-      newState = this.searchError(newState);
-
-      this.setState(newState);
-      Object.values(this.state.leads).forEach((element) => {
-        leads.push(element);
-      });
-
-      localStorage.setItem("leads", JSON.stringify(leads));
-      return;
-    }
 
     const startLeadIds = Array.from(start.leadIds);
     startLeadIds.splice(source.index, 1);
